@@ -8,7 +8,7 @@ page = requests.get(URL)
 soup = BeautifulSoup(page.content, 'html.parser')
 
 results = soup.find(class_='archive')
-resultsText = str(results.text)
+resultsText = results.text
 
 lenText = len(resultsText)
 
@@ -26,8 +26,12 @@ for i in range(5):
     for satz in stringArray:
         if(satz == "\n"):
             stringArray.remove(satz) 
-        if(satz == "weiterlesen"):
-            stringArray.remove(satz)  
+
+for satz in stringArray:
+    satzVar = satz
+    print('Satz DEBUG: '+ satzVar)
+    if satzVar == 'weiterlesen':
+        stringArray.remove(satz)
 
 stringArray2 = []
 for satz in stringArray:
