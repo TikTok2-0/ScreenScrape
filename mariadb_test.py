@@ -5,6 +5,7 @@ from colorama import Fore, Back, Style
 def connectToDB():
 
     try:
+        global conn
         conn = mariadb.connect(
             user="teamhlg",
             password="1FiTUaR2UV8c.X4#p0NW0ofZ0Qic1cI3",
@@ -27,14 +28,17 @@ def createNewTable(name, nameColumn):
     except mariadb.Error as e:
         print(Fore.RED + f"There was an error during Table Creation: {e}")
 
-def createRow(table, name, value):
+def createRow(table, columnName, value):
     try:
-        cursor.execute("INSERT INTO {} ({}) VALUES ({})".format(table, name, value))
+        query = 'INSERT INTO {} ({}) VALUES ("{}")'.format(table, columnName,value)
+
+        cursor.execute(query)
+
+        conn.commit()
     except mariadb.Error as e:
         print(Fore.RED + f"There was an error during Row creation: {e}")
 
-
-
 connectToDB()
-createNewTable("users_2", "name")
-createRow("users_2", "name", "%s")
+createNewTable("test03", "name")
+createRow("test03", "name", "hi")
+
