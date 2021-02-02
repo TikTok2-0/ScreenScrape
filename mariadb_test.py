@@ -1,5 +1,6 @@
 import mariadb
 import sys
+from colorama import Fore, Back, Style 
 
 def connectToDB():
 
@@ -13,24 +14,24 @@ def connectToDB():
         )
         #print ("Hello World!")
     except mariadb.Error as e:
-        print(f"Error connecting to MariaDB Platform: {e}")
+        print(Fore.RED + f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
     global cursor
     cursor = conn.cursor()
 
-def createNewTable(name, nameRow):
+def createNewTable(name, nameColumn):
     nameTable = name
-    nameFirstRow = nameRow
+    nameFirstColumn = nameColumn
     try:
-        cursor.execute("CREATE TABLE IF NOT EXISTS {} ({} VARCHAR(255))".format(nameTable, nameFirstRow))
+        cursor.execute("CREATE TABLE IF NOT EXISTS {} ({} VARCHAR(255))".format(nameTable, nameFirstColumn))
     except mariadb.Error as e:
-        print(f"There was an error during Table Creation: {e}")
+        print(Fore.RED + f"There was an error during Table Creation: {e}")
 
 def createRow(table, name, value):
     try:
         cursor.execute("INSERT INTO {} ({}) VALUES ({})".format(table, name, value))
     except mariadb.Error as e:
-        print(f"There was an error during Row creation: {e}")
+        print(Fore.RED + f"There was an error during Row creation: {e}")
 
 
 
