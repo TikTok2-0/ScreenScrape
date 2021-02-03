@@ -114,47 +114,23 @@ while (counter < len(cleanResultsHLG)-1):
     captions.append(cleanResultsHLG[counter])
     counter = counter+1
 
-#print(titles)
-#print(captions)
+titles.append("dummy")
+captions.append("dummy")
 
+counter2 = 0
 for title in titles:
-    try:
-        createRow("jsonStorage", "titles", title)
-    except mariadb.Error as e:
-        print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
-        
-for caption in captions:
-    try:
-        createRow("jsonStorage", "captions", caption)
-    except mariadb.Error as e:
-        print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
-        
-"""
-for title in titles: 
-  str(counterT)
-  dictTestT['title{}'.format(counterT)] = title
-  int(counterT)
-  counterT += 1
-
-print(dictTestT)
-
-for caption in captions:
-  str(counterC)
-  dictTestC[counterC] = caption
-  int(counterC)
-  counterC += 1
-
-while counterF < len(titles):
-  str(counterF)
-  #finalDict[dictTestT[counterF]] = dictTestC[counterF]
-  int(counterF)
-  counterF += 1
-"""
-
-
-#createNewTable("test01_2", "Column_A")
-#createColumn("test01_2","Column_B")
-#createRow("test01_2", "Column_A", "Value1")
-
+  try:
+    createRow("jsonStorage", "titles", title)
+    cursor.execute('UPDATE jsonStorage SET captions = "{}" WHERE titles = "{}"'.format(captions[counter2], title))
+    cursor.execute('UPDATE jsonStorage SET id = "{}" WHERE titles = "{}"'.format(counter2+1, title))
+    counter2 += 1
+  except mariadb.Error as e:
+    print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
+    
+try:
+  cursor.execute('DELETE FROM jsonStorage WHERE titles = "dummy"')
+  conn.commit()
+except mariadb.Error as e:
+  print(Fore.RED + f"There was an error during ROW DELETION: {e}")
 
 
