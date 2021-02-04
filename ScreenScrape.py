@@ -85,4 +85,4 @@ print(finalDict)
 
 dictOut = json.dumps(finalDict, indent = 2) 
 with open("TitleCaption.json", "w") as outfile: 
-    outfile.write(dictOut)
+  outfile.write(dictOut)
