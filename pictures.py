@@ -56,14 +56,13 @@ for result in resultsHLG:
 
 connectToDB()
 
-cursor.execute("DELETE FROM jsonStorage WHERE pictures")
+cursor.execute("DELETE FROM jsonStorage WHERE imageURL")
+conn.commit()
 
 for item in cleanList:
   try:
-    cursor.execute('UPDATE jsonStorage SET pictures = "{}" WHERE id = "{}"'.format(item, counter))
+    cursor.execute('UPDATE jsonStorage SET imageURL = "{}" WHERE id = "{}"'.format(item, counter))
     conn.commit()
-    print(item)
-    print(counter)
     counter += 1
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")

@@ -100,7 +100,7 @@ counterC = 0
 finalDict = dict()
 counterF = 0
 
-createNewTable("jsonStorage", "titles")
+createNewTable("jsonStorage", "title")
 
 cursor.execute("DELETE FROM jsonStorage")
 
@@ -120,15 +120,15 @@ captions.append("dummy")
 counter2 = 0
 for title in titles:
   try:
-    createRow("jsonStorage", "titles", title)
-    cursor.execute('UPDATE jsonStorage SET captions = "{}" WHERE titles = "{}"'.format(captions[counter2], title))
-    cursor.execute('UPDATE jsonStorage SET id = "{}" WHERE titles = "{}"'.format(counter2+1, title))
+    createRow("jsonStorage", "title", title)
+    cursor.execute('UPDATE jsonStorage SET caption = "{}" WHERE title = "{}"'.format(captions[counter2], title))
+    cursor.execute('UPDATE jsonStorage SET id = "{}" WHERE title = "{}"'.format(counter2+1, title))
     counter2 += 1
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
     
 try:
-  cursor.execute('DELETE FROM jsonStorage WHERE titles = "dummy"')
+  cursor.execute('DELETE FROM jsonStorage WHERE title = "dummy"')
   conn.commit()
 except mariadb.Error as e:
   print(Fore.RED + f"There was an error during ROW DELETION: {e}")
