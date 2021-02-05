@@ -52,11 +52,12 @@ pageSrc = requests.get(URL_Src)
 soupSrc = BeautifulSoup(pageSrc.content, 'html5lib')
 resultsSrc = soupSrc(class_="thumb")
 cleanSrcList = []
-resultsDate = []
-cleanResultsDate = []
-resultsCat = []
-cleanResultsCat = []
+results = []
+cleanResults = []
+cleanTextList = []
+textSplit = []
 counter = 0
+
 
 for result in resultsSrc:
     convText = str(result)
@@ -68,62 +69,53 @@ for result in resultsSrc:
     if '/2021/' in linkContainer:
         cleanSrcList.append(linkContainer)
 
+print('SRC LIST:', cleanSrcList, '  len SRC LIST:', len(cleanSrcList))
 
 for URL in cleanSrcList:
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html5lib')
-    midResultsDate = soup(class_= 'date') 
-    resultsDate.append(midResultsDate) 
+    midResults = soup('article') 
+    results.append(midResults) 
 
-for result in resultsDate:
-    midResultsDate = str(result).split('date">') 
-    midResultDate = midResultsDate[1]
-    midResultDate = midResultDate[:-8]
-    cleanResultsDate.append(midResultDate)
+#print('RESULTS:', results, len(results))
 
-cursor.execute("DELETE FROM jsonStorage WHERE dates")
-conn.commit()
-
-for item in cleanResultsDate:
-  try:
-    cursor.execute('UPDATE jsonStorage SET dates = "{}" WHERE id = "{}"'.format(str(item), counter+1))
-    conn.commit()
-    counter += 1
-  except mariadb.Error as e:
-    print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
-
-
-
-########     BREAK     ########
- 
-
-
-counter = 0
-
-for URL in cleanSrcList:
-    page = requests.get(URL)
-    soup = BeautifulSoup(page.content, 'html5lib')
-    midResultsCat = soup(class_= 'category') 
-    #print(midResultsCat)
-    resultsCat.append(midResultsCat) 
 x = 0
-for result in resultsCat:
-    midResultsCat = str(result).split('/">') 
-    midResultCat = midResultsCat[1]
-    midResultCat = midResultCat[:-23]
-    if len(midResultCat) > 17:
-       secondary = midResultCat.split('</a>')
-       midResultCat = secondary[0]
+cleanTextList2 = []
+vielText = 'diese Seite ausdrucken Vorherige Artikel Zurück zur Übersicht Nächster Artikel'
+for result in results:
+    textSplit.clear()
+    textConv = result[0].text
+    #print(result[0].text)
+    textSplit = textConv.split('Kategorie', 6)
     x += 1
-    print(midResultCat, x)
-    cleanResultsCat.append(midResultCat)
+    #print(x)
+    cleanTextSplit = ''
+    cleanTextSplit = textSplit[1]
+    cleanTextSplit = cleanTextSplit[58:]
+    cleanTextList.clear()
+    cleanTextList.append(cleanTextSplit)
+    #print(cleanTextList)
+    if x < 7:
+        for satz in cleanTextList:
+            while "\n" in satz:
+                satz = satz[:satz.find("\n")] + satz[satz.find("\n")+1:]
+            while "\t" in satz:
+                satz = satz[:satz.find("\t")] + satz[satz.find("\t")+1:]
+            while "  " in satz:
+                satz = satz[:satz.find("  ")] + satz[satz.find("  ")+1:]
+            while vielText in satz:
+                satz = satz[:satz.find(vielText)] + satz[satz.find(vielText)+78:]
+            #print('SATZ', satz)
+            cleanTextList2.append(satz)
+cleanTextList = cleanTextList2
 
-#cursor.execute("DELETE FROM jsonStorage WHERE category")
-#conn.commit()
+for item in cleanTextList:
+    print('ITEM:', item)
+print(len(cleanTextList))
 
-for item in cleanResultsCat:
+for item in cleanTextList:
   try:
-    cursor.execute('UPDATE jsonStorage SET category = "{}" WHERE id = "{}"'.format(str(item), counter+1))
+    cursor.execute('UPDATE jsonStorage SET text = "{}" WHERE id = "{}"'.format(str(item), counter+1))
     conn.commit()
     counter += 1
   except mariadb.Error as e:
