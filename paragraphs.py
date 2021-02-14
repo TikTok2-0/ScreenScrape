@@ -91,18 +91,20 @@ for result in results:
     #print(x)
     cleanTextSplit = ''
     cleanTextSplit = textSplit[1]
-    cleanTextSplit = cleanTextSplit[58:]
+    cleanTextSplit = cleanTextSplit[58:-133]
     cleanTextList.clear()
     cleanTextList.append(cleanTextSplit)
     #print(cleanTextList)
     if x < 7:
         for satz in cleanTextList:
-            while "\n" in satz:
-                satz = satz[:satz.find("\n")] + satz[satz.find("\n")+1:]
+            #while "\n" in satz:
+             #   satz = satz[:satz.find("\n")] + satz[satz.find("\n")+1:]
             while "\t" in satz:
                 satz = satz[:satz.find("\t")] + satz[satz.find("\t")+1:]
             while "  " in satz:
                 satz = satz[:satz.find("  ")] + satz[satz.find("  ")+1:]
+            while "\n\n" in satz:
+                satz = satz[:satz.find("\n\n")] + satz[satz.find("\n\n")+1:]
             while vielText in satz:
                 satz = satz[:satz.find(vielText)] + satz[satz.find(vielText)+78:]
             #print('SATZ', satz)
@@ -113,6 +115,7 @@ for item in cleanTextList:
     print('ITEM:', item)
 print(len(cleanTextList))
 
+
 for item in cleanTextList:
   try:
     cursor.execute('UPDATE jsonStorage SET text = "{}" WHERE id = "{}"'.format(str(item), counter+1))
@@ -120,4 +123,3 @@ for item in cleanTextList:
     counter += 1
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
-
