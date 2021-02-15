@@ -30,7 +30,7 @@ connectToDB()
 
 my_query = query_db("SELECT * FROM jsonStorage LIMIT %s", (6,))
 
-json_output = json.dumps(my_query, ensure_ascii = False)
+json_output = json.dumps({'news':my_query}, ensure_ascii = False)
 
 with open("jsonExports.json", "w") as outfile: 
   outfile.write(json_output)

@@ -115,11 +115,11 @@ for result in resultsCat:
        secondary = midResultCat.split('</a>')
        midResultCat = secondary[0]
     x += 1
-    print(midResultCat, x)
+    #print(midResultCat, x)
     cleanResultsCat.append(midResultCat)
 
-#cursor.execute("DELETE FROM jsonStorage WHERE category")
-#conn.commit()
+cursor.execute("DELETE FROM jsonStorage WHERE category")
+conn.commit()
 
 for item in cleanResultsCat:
   try:

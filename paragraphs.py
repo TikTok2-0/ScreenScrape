@@ -69,7 +69,7 @@ for result in resultsSrc:
     if '/2021/' in linkContainer:
         cleanSrcList.append(linkContainer)
 
-print('SRC LIST:', cleanSrcList, '  len SRC LIST:', len(cleanSrcList))
+#print('SRC LIST:', cleanSrcList, '  len SRC LIST:', len(cleanSrcList))
 
 for URL in cleanSrcList:
     page = requests.get(URL)
@@ -90,8 +90,20 @@ for result in results:
     x += 1
     #print(x)
     cleanTextSplit = ''
+    counter = 0
     cleanTextSplit = textSplit[1]
     cleanTextSplit = cleanTextSplit[58:-133]
+    if cleanTextSplit[0].isupper() == False:
+        cleanTextSplit = textSplit[1]
+        cleanTextSplit = cleanTextSplit[57:-133]
+    while cleanTextSplit[0] == ' ':
+        cleanTextSplit = textSplit[1]
+        cleanTextSplit = cleanTextSplit[58+counter:-133]
+        counter += 1
+    if cleanTextSplit[0] == '\n':
+        cleanTextSplit = textSplit[1]
+        cleanTextSplit = cleanTextSplit[60:-133]
+    counter = 0
     cleanTextList.clear()
     cleanTextList.append(cleanTextSplit)
     #print(cleanTextList)
@@ -111,9 +123,9 @@ for result in results:
             cleanTextList2.append(satz)
 cleanTextList = cleanTextList2
 
-for item in cleanTextList:
-    print('ITEM:', item)
-print(len(cleanTextList))
+#for item in cleanTextList:
+    #print('ITEM:', item)
+#print(len(cleanTextList))
 
 
 for item in cleanTextList:
