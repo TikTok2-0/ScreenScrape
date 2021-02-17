@@ -29,7 +29,7 @@ def query_db(query, args=(), one=False):
 connectToDB()
 
 my_query = query_db("SELECT * FROM jsonStorage LIMIT %s", (6,))
-
+ 
 json_output = json.dumps(my_query, ensure_ascii = False)
 
 with open("jsonExportsMAC.json", "w") as outfile: 

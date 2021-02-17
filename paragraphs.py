@@ -58,7 +58,6 @@ cleanTextList = []
 textSplit = []
 counter = 0
 
-
 for result in resultsSrc:
     convText = str(result)
     splitListFirst = convText.split('href="')
@@ -69,15 +68,11 @@ for result in resultsSrc:
     if '/2021/' in linkContainer:
         cleanSrcList.append(linkContainer)
 
-#print('SRC LIST:', cleanSrcList, '  len SRC LIST:', len(cleanSrcList))
-
 for URL in cleanSrcList:
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html5lib')
     midResults = soup('article') 
     results.append(midResults) 
-
-#print('RESULTS:', results, len(results))
 
 x = 0
 cleanTextList2 = []
@@ -85,10 +80,8 @@ vielText = 'diese Seite ausdrucken Vorherige Artikel Zurück zur Übersicht Näc
 for result in results:
     textSplit.clear()
     textConv = result[0].text
-    #print(result[0].text)
     textSplit = textConv.split('Kategorie', 6)
     x += 1
-    #print(x)
     cleanTextSplit = ''
     counter = 0
     cleanTextSplit = textSplit[1]
@@ -106,11 +99,8 @@ for result in results:
     counter = 0
     cleanTextList.clear()
     cleanTextList.append(cleanTextSplit)
-    #print(cleanTextList)
     if x < 7:
         for satz in cleanTextList:
-            #while "\n" in satz:
-             #   satz = satz[:satz.find("\n")] + satz[satz.find("\n")+1:]
             while "\t" in satz:
                 satz = satz[:satz.find("\t")] + satz[satz.find("\t")+1:]
             while "  " in satz:
@@ -122,11 +112,6 @@ for result in results:
             #print('SATZ', satz)
             cleanTextList2.append(satz)
 cleanTextList = cleanTextList2
-
-#for item in cleanTextList:
-    #print('ITEM:', item)
-#print(len(cleanTextList))
-
 
 for item in cleanTextList:
   try:
