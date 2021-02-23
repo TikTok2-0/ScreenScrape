@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
+### DB FUNCTIONS ###
+
 def connectToDB():
 
     try:
@@ -80,9 +82,13 @@ def ScrapeCleanup(results):
   
   return stringArray
 
+### DB FUNCTIONS ENDE ###
+
 
 connectToDB()
 
+
+### HLG ###
 
 counter = 0
 titles = []
@@ -114,6 +120,36 @@ while (counter < len(cleanResultsHLG)-1):
     captions.append(cleanResultsHLG[counter])
     counter = counter+1
 
+### HLG ENDE ###
+
+
+### KAIFU TITEL ###
+
+URL2 = 'https://www.kaifu-gymnasium.de'
+pageKFU = requests.get(URL2)
+soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
+resultsKFU = soupKFU(id='content')
+
+for result in resultsKFU:
+  resultsTextKFU = str(result).split('aria-label="')
+  for item in resultsTextKFU:
+    itemList = item.split('/">')
+    item = itemList[0]
+    if item[0] != '<':
+      itemList = item.split('" href')
+      item = itemList[0]
+      print (item)
+      titles.append(item)
+
+### KAIFU TITEL ENDE ###
+
+
+### KAIFU CAPTIONS ###
+
+
+
+### DB PUSH ###
+
 titles.append("dummy")
 captions.append("dummy")
 
@@ -121,8 +157,13 @@ counter2 = 0
 for title in titles:
   try:
     createRow("jsonStorage", "title", title)
-    cursor.execute('UPDATE jsonStorage SET caption = "{}" WHERE title = "{}"'.format(captions[counter2], title))
+    if counter2 < 6:
+      cursor.execute('UPDATE jsonStorage SET caption = "{}" WHERE title = "{}"'.format(captions[counter2], title))
     cursor.execute('UPDATE jsonStorage SET id = "{}" WHERE title = "{}"'.format(counter2+1, title))
+    if counter2 >= 6:
+      cursor.execute('UPDATE jsonStorage SET school = "{}" WHERE title = "{}"'.format('KFU', title))
+    else:
+      cursor.execute('UPDATE jsonStorage SET school = "{}" WHERE title = "{}"'.format('HLG', title))
     counter2 += 1
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
