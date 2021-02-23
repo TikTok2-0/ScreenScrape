@@ -28,7 +28,7 @@ def query_db(query, args=(), one=False):
 
 connectToDB()
 
-my_query = query_db("SELECT * FROM jsonStorage LIMIT %s", (12,))
+my_query = query_db("SELECT * FROM jsonStorage LIMIT %s", (6,))
  
 json_output = json.dumps(my_query, ensure_ascii = False)
 
