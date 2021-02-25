@@ -146,7 +146,25 @@ for result in resultsKFU:
 
 ### KAIFU CAPTIONS ###
 
+counter = 0
+#captions = []
+lastSpace = 0
 
+URL2 = 'https://www.kaifu-gymnasium.de'
+pageKFU = requests.get(URL2)
+soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
+resultsKFU = soupKFU(class_='fusion-post-content-container')
+
+for result in resultsKFU:
+  resultsTextKFU = str(result).split('<div class="fusion-post-content-container"><p> ')
+  resultsTextKFU = resultsTextKFU[1]
+  resultsTextKFU = resultsTextKFU.split('</p></div>')
+  resultsTextKFU = resultsTextKFU[0]
+  counter = 1
+  while resultsTextKFU[0] == ' ':
+    resultsTextKFU = resultsTextKFU[counter:]
+    counter += 1
+  captions.append(resultsTextKFU)
 
 ### DB PUSH ###
 
@@ -157,7 +175,7 @@ counter2 = 0
 for title in titles:
   try:
     createRow("jsonStorage", "title", title)
-    if counter2 < 6:
+    if counter2 < 12:
       cursor.execute('UPDATE jsonStorage SET caption = "{}" WHERE title = "{}"'.format(captions[counter2], title))
     cursor.execute('UPDATE jsonStorage SET id = "{}" WHERE title = "{}"'.format(counter2+1, title))
     if counter2 >= 6:

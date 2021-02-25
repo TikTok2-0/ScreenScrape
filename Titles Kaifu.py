@@ -49,27 +49,24 @@ def createColumn(nameTable, nameColumn):
         print(Fore.RED + f"There was an error during COLUMN Creation: {e}")
 
 counter = 0
-titles = []
+captions = []
 lastSpace = 0
 
 URL2 = 'https://www.kaifu-gymnasium.de'
 pageKFU = requests.get(URL2)
 soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
-resultsKFU = soupKFU(id='content')
+resultsKFU = soupKFU(class_='fusion-post-content-container')
 
 for result in resultsKFU:
-    resultsTextKFU = str(result).split('<p>')
-    for item in resultsTextKFU:
-        #print('\n\n-----------\n\n', item)
-        itemList = item.split('</p>')
-        item = itemList[0]
-        #print ('\n\n-----------\n\n', item)
-        if item != '<': 
-            titles.append(item)
-
-    #titles.append(resultsTextKFU)
-    
-#print(titles)
+  resultsTextKFU = str(result).split('<div class="fusion-post-content-container"><p> ')
+  resultsTextKFU = resultsTextKFU[1]
+  resultsTextKFU = resultsTextKFU.split('</p></div>')
+  resultsTextKFU = resultsTextKFU[0]
+  counter = 1
+  while resultsTextKFU[0] == ' ':
+    resultsTextKFU = resultsTextKFU[counter:]
+    counter += 1
+  captions.append(resultsTextKFU)
 
 
 
