@@ -81,13 +81,36 @@ for result in resultsDate:
     midResultDate = midResultDate[:-8]
     cleanResultsDate.append(midResultDate)
 
+URL2 = 'https://www.kaifu-gymnasium.de'
+pageKFU = requests.get(URL2)
+soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
+resultsKFU = soupKFU(class_='fusion-single-line-meta')
+
+for result in resultsKFU:
+  resultsTextKFU = str(result).split('<span')
+  resultsTextKFU = resultsTextKFU[4]
+  resultsTextKFU = resultsTextKFU.split('</span>')
+  resultsTextKFU = resultsTextKFU[0]
+  resultsTextKFU = resultsTextKFU[1:]
+  #print (resultsTextKFU)
+  counter = 1
+  while resultsTextKFU[0] == ' ':
+    resultsTextKFU = resultsTextKFU[counter:]
+    counter += 1
+  cleanResultsDate.append(resultsTextKFU)
+
 cursor.execute("DELETE FROM jsonStorage WHERE dates")
 conn.commit()
+
+print(cleanResultsDate)
+
+counter = 0
 
 for item in cleanResultsDate:
   try:
     cursor.execute('UPDATE jsonStorage SET dates = "{}" WHERE id = "{}"'.format(str(item), counter+1))
     conn.commit()
+    print(counter)
     counter += 1
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
@@ -121,10 +144,14 @@ for result in resultsCat:
 cursor.execute("DELETE FROM jsonStorage WHERE category")
 conn.commit()
 
+for i in range (6):
+    cleanResultsCat.append('Kaifu')
+
 for item in cleanResultsCat:
   try:
     cursor.execute('UPDATE jsonStorage SET category = "{}" WHERE id = "{}"'.format(str(item), counter+1))
-    conn.commit()
+    conn.commit() 
+    #print(counter)
     counter += 1
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")

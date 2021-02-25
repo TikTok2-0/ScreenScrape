@@ -54,10 +54,32 @@ for result in resultsHLG:
     if 'uploads' in linkContainer and '/2014/08/London' not in linkContainer and 'DSCI02952' not in linkContainer and 'logo-footer' not in linkContainer and 'uploads/2019/06/logo.png' not in linkContainer:
         cleanList.append(linkContainer)
 
+counter = 0
+pics = []
+lastSpace = 0
+
+URL2 = 'https://www.kaifu-gymnasium.de'
+pageKFU = requests.get(URL2)
+soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
+resultsKFU = soupKFU(class_='fusion-image-wrapper')
+
+for result in resultsKFU:
+  resultsTextKFU = str(result).split('src="')
+  resultsTextKFU = resultsTextKFU[1]
+  resultsTextKFU = resultsTextKFU.split('class=')
+  resultsTextKFU = resultsTextKFU[0]
+  resultsTextKFU = resultsTextKFU.split('" srcset=')
+  resultsTextKFU = resultsTextKFU[0]
+  counter = 1
+  while resultsTextKFU[0] == ' ':
+    resultsTextKFU = resultsTextKFU[counter:]
+    counter += 1
+  cleanList .append(resultsTextKFU)
+
 connectToDB()
 
 cursor.execute("DELETE FROM jsonStorage WHERE imageURL")
-conn.commit()
+conn.commit() 
 
 for item in cleanList:
   try:

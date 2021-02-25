@@ -138,7 +138,7 @@ for result in resultsKFU:
     if item[0] != '<':
       itemList = item.split('" href')
       item = itemList[0]
-      print (item)
+      #print (item)
       titles.append(item)
 
 ### KAIFU TITEL ENDE ###
