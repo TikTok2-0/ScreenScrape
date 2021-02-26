@@ -1,3 +1,4 @@
+from typing import Text
 from bs4.element import ResultSet
 import mariadb
 import sys
@@ -49,25 +50,52 @@ def createColumn(nameTable, nameColumn):
         print(Fore.RED + f"There was an error during COLUMN Creation: {e}")
 
 counter = 0
-dates = []
+Text = []
 lastSpace = 0
+srcList = []
+results = []
+textSplit = []
 
 URL2 = 'https://www.kaifu-gymnasium.de'
 pageKFU = requests.get(URL2)
 soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
-resultsKFU = soupKFU(class_='fusion-single-line-meta')
+resultsKFU = soupKFU('a')
+
+#for item in resultsKFU:
+    #print ('-------------\n',item, '\n\n')
 
 for result in resultsKFU:
-  resultsTextKFU = str(result).split('<span')
-  resultsTextKFU = resultsTextKFU[4]
-  resultsTextKFU = resultsTextKFU.split('</span>')
-  resultsTextKFU = resultsTextKFU[0]
-  resultsTextKFU = resultsTextKFU[1:]
-  #print (resultsTextKFU)
-  counter = 1
-  while resultsTextKFU[0] == ' ':
-    resultsTextKFU = resultsTextKFU[counter:]
-    counter += 1
-  dates.append(resultsTextKFU)
+    convText = str(result)
+    #print ('-------------\n',convText, '\n\n')
+    if convText[3] == 'h':
+        splitListFirst = convText.split('href="')
+        linkContainer = splitListFirst[1]
+        if linkContainer[12] == 'k' and linkContainer[13]=='a' and 'author' not in linkContainer and 'rel="' not in linkContainer and 'target="' not in linkContainer and 'src="' not in linkContainer and 'Impressum' not in linkContainer:
+            linkContainer = linkContainer.split('">')
+            linkContainer = linkContainer[0]
+            srcList.append(linkContainer)
 
-print (dates)
+#print(srcList, len(srcList))
+
+for URL in srcList:
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html5lib')
+    midResults = soup('article') 
+    results.append(midResults)
+
+results2 = []
+
+for result in results:
+    textSplit.clear()
+    textConv = result[0].text
+    while "\t" in textConv:
+        textConv = textConv[:textConv.find("\t")] + textConv[textConv.find("\t")+1:]
+    while "\n\n" in textConv:
+        textConv = textConv[:textConv.find("\n\n")] + textConv[textConv.find('\n\n')+1:]
+    if textConv[0] == '\n':
+        textConv = str(textConv)[1:]
+    cleanText = str(textConv)
+    cleanText = cleanText[:-57]
+    results2.append(cleanText)
+    #print (cleanText)
+print(results2)

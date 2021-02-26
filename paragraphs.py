@@ -113,6 +113,46 @@ for result in results:
             cleanTextList2.append(satz)
 cleanTextList = cleanTextList2
 
+srcList = []
+results = []
+textSplit = []
+
+URL2 = 'https://www.kaifu-gymnasium.de'
+pageKFU = requests.get(URL2)
+soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
+resultsKFU = soupKFU('a')
+
+for result in resultsKFU:
+    convText = str(result)
+    if convText[3] == 'h':
+        splitListFirst = convText.split('href="')
+        linkContainer = splitListFirst[1]
+        if linkContainer[12] == 'k' and linkContainer[13]=='a' and 'author' not in linkContainer and 'rel="' not in linkContainer and 'target="' not in linkContainer and 'src="' not in linkContainer and 'Impressum' not in linkContainer:
+            linkContainer = linkContainer.split('">')
+            linkContainer = linkContainer[0]
+            srcList.append(linkContainer)
+
+for URL in srcList:
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html5lib')
+    midResults = soup('article') 
+    results.append(midResults)
+
+results2 = []
+
+for result in results:
+    textSplit.clear()
+    textConv = result[0].text
+    while "\t" in textConv:
+        textConv = textConv[:textConv.find("\t")] + textConv[textConv.find("\t")+1:]
+    while "\n\n" in textConv:
+        textConv = textConv[:textConv.find("\n\n")] + textConv[textConv.find('\n\n')+1:]
+    if textConv[0] == '\n':
+        textConv = str(textConv)[1:]
+    cleanText = str(textConv)
+    cleanText = cleanText[:-57]
+    cleanTextList.append(cleanText)
+
 for item in cleanTextList:
   try:
     cursor.execute('UPDATE jsonStorage SET text = "{}" WHERE id = "{}"'.format(str(item), counter+1))
