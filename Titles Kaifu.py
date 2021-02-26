@@ -49,9 +49,6 @@ def createColumn(nameTable, nameColumn):
     except mariadb.Error as e:
         print(Fore.RED + f"There was an error during COLUMN Creation: {e}")
 
-counter = 0
-Text = []
-lastSpace = 0
 srcList = []
 results = []
 textSplit = []
@@ -61,12 +58,8 @@ pageKFU = requests.get(URL2)
 soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
 resultsKFU = soupKFU('a')
 
-#for item in resultsKFU:
-    #print ('-------------\n',item, '\n\n')
-
 for result in resultsKFU:
     convText = str(result)
-    #print ('-------------\n',convText, '\n\n')
     if convText[3] == 'h':
         splitListFirst = convText.split('href="')
         linkContainer = splitListFirst[1]
@@ -74,8 +67,6 @@ for result in resultsKFU:
             linkContainer = linkContainer.split('">')
             linkContainer = linkContainer[0]
             srcList.append(linkContainer)
-
-#print(srcList, len(srcList))
 
 for URL in srcList:
     page = requests.get(URL)
@@ -97,5 +88,4 @@ for result in results:
     cleanText = str(textConv)
     cleanText = cleanText[:-57]
     results2.append(cleanText)
-    #print (cleanText)
 print(results2)
