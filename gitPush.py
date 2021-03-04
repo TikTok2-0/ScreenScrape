@@ -1,13 +1,13 @@
 from git import Repo
 
-PATH_OF_GIT_REPO = r'/users/yannik/Desktop/Me/Code/Github/ScreenScrape'  # make sure .git folder is properly configured
-COMMIT_MESSAGE = 'update News'
+repoPath = r'/users/yannik/Desktop/Me/Code/Github/ScreenScrape'  # make sure .git folder is properly configured
+messageCommit = 'update News'
 
 def git_push():
     try:
-        repo = Repo(PATH_OF_GIT_REPO)
+        repo = Repo(repoPath)
         repo.git.add(update=True)
-        repo.index.commit(COMMIT_MESSAGE)
+        repo.index.commit(messageCommit)
         origin = repo.remote(name='origin')
         origin.push()
     except:
