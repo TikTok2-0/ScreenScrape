@@ -1,6 +1,6 @@
 from git import Repo
 
-repoPath = r'/users/yannik/Desktop/Me/Code/Github/ScreenScrape'  # make sure .git folder is properly configured
+repoPath = r'/users/yannik/Desktop/Me/Code/Github/ScreenScrape'
 messageCommit = 'update News'
 
 def git_push():
