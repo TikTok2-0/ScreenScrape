@@ -58,6 +58,11 @@ counter = 0
 pics = []
 lastSpace = 0
 
+while len(cleanList) > 6:
+    cleanList.pop(0)
+
+print(len(cleanList))
+
 URL2 = 'https://www.kaifu-gymnasium.de'
 pageKFU = requests.get(URL2)
 soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
