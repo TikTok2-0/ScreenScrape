@@ -43,9 +43,7 @@ def createColumn(nameTable, nameColumn):
     except mariadb.Error as e:
         print(Fore.RED + f"There was an error during COLUMN Creation: {e}")
 
-
-#connectToDB()
-
+connectToDB()
 
 URL_Src = 'https://www.hlg-hamburg.de'
 pageSrc = requests.get(URL_Src)
@@ -113,12 +111,6 @@ for result in results:
             cleanTextList2.append(satz)
 cleanTextList = cleanTextList2
 
-print(results)
-
-
-
-
-
 srcList = []
 results = []
 textSplit = []
@@ -158,7 +150,7 @@ for result in results:
     cleanText = str(textConv)
     cleanText = cleanText[:-57]
     cleanTextList.append(cleanText)
-"""
+
 for item in cleanTextList:
   try:
     cursor.execute('UPDATE jsonStorage SET text = "{}" WHERE id = "{}"'.format(str(item), counter+1))
@@ -166,4 +158,3 @@ for item in cleanTextList:
     counter += 1
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
-"""
