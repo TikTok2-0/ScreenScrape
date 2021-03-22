@@ -56,7 +56,7 @@ results = []
 bigGay = []
 bigQwinge = []
 bigCocksInDave = []
-
+counter = 0
 
 for result in resultsSrc:
     convText = str(result)
@@ -102,7 +102,6 @@ for result in results:
             bigCocksInDave.append([item, counter])
     counter += 1
 
-counter = 0
 for i in range (len(bigCocksInDave)-2):
     if bigCocksInDave[i][1] == bigCocksInDave[i+1][1]:
         bigCocksInDave[i][0] = bigCocksInDave[i][0], bigCocksInDave[i+1][0]
@@ -118,5 +117,29 @@ for item in bigCocksInDave:
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
 
+srcList = []
+results = []
+textSplit = []
+
+URL2 = 'https://www.kaifu-gymnasium.de'
+pageKFU = requests.get(URL2)
+soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
+resultsKFU = soupKFU('a')
+
+for result in resultsKFU:
+    convText = str(result)
+    if convText[3] == 'h':
+        splitListFirst = convText.split('href="')
+        linkContainer = splitListFirst[1]
+        if linkContainer[12] == 'k' and linkContainer[13]=='a' and 'author' not in linkContainer and 'rel="' not in linkContainer and 'target="' not in linkContainer and 'src="' not in linkContainer and 'Impressum' not in linkContainer:
+            linkContainer = linkContainer.split('">')
+            linkContainer = linkContainer[0]
+            srcList.append(linkContainer)
+
+for URL in srcList:
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html5lib')
+    midResults = soup('article') 
+    results.append(midResults)
     
 
