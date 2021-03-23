@@ -6,4 +6,4 @@ page = requests.get(URL1)
 soup = BeautifulSoup(page.content, 'html5lib')
 results = soup.find('img')
 
-print(results)
+print(results)  
