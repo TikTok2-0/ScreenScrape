@@ -111,7 +111,7 @@ for i in range (len(bigCocksInDave)-2):
 for item in bigCocksInDave:
   try:
     print(item[0])
-    cursor.execute('UPDATE jsonStorage SET Links = "{}" WHERE id = "{}"'.format(str(item[0]), str(item[1])))
+    cursor.execute('UPDATE jsonStorage SET links = "{}" WHERE id = "{}"'.format(str(item[0]), str(item[1])))
     conn.commit()
     counter += 1
   except mariadb.Error as e:
