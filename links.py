@@ -108,14 +108,22 @@ for i in range (len(bigCocksInDave)-2):
         bigCocksInDave.pop(i+1)
         #print(bigCocksInDave[i][0])
 
+counter = 1
 for item in bigCocksInDave:
   try:
     print(item[0])
     cursor.execute('UPDATE jsonStorage SET links = "{}" WHERE id = "{}"'.format(str(item[0]), str(item[1])))
     conn.commit()
     counter += 1
+
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
+
+
+while counter >= len(bigCocksInDave) and counter <= 12:
+    cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(counter))
+    conn.commit()
+    counter += 1
 
 srcList = []
 results = []
