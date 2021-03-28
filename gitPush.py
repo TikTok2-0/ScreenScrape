@@ -1,7 +1,7 @@
 from git import Repo
 
 repoPath = r'/users/yannik/Desktop/Me/Code/Github/ScreenScrape'
-messageCommit = 'update News'
+messageCommit = 'ABGABE'
 
 def git_push():
     try:
