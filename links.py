@@ -86,7 +86,7 @@ for result in results:
     result = splitDivEnd[0]
     splitHref = result.split('href=')
     for split in splitHref:
-        if split != splitHref[0]:
+        if split != splitHref[0] and 'thumbnail' not in split and '@' not in split:
             bigGay.append(split)
 
     for item in bigGay:
@@ -106,12 +106,12 @@ for i in range (len(bigCocksInDave)-2):
     if bigCocksInDave[i][1] == bigCocksInDave[i+1][1]:
         bigCocksInDave[i][0] = bigCocksInDave[i][0], bigCocksInDave[i+1][0]
         bigCocksInDave.pop(i+1)
-        #print(bigCocksInDave[i][0])
+        print(bigCocksInDave[i][0])
 
 counter = 1
 for item in bigCocksInDave:
-  try:
-    print(item[0])
+  try:  
+    #print(item[0], item[1])
     cursor.execute('UPDATE jsonStorage SET links = "{}" WHERE id = "{}"'.format(str(item[0]), str(item[1])))
     conn.commit()
     counter += 1
@@ -119,11 +119,23 @@ for item in bigCocksInDave:
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
 
-
+counter = counter + int(bigCocksInDave[0][1])-1
 while counter >= len(bigCocksInDave) and counter <= 12:
     cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(counter))
     conn.commit()
     counter += 1
+    print (counter)
+
+counter = 1
+counter2 = 1
+if int(bigCocksInDave[0][1]) > 1:
+    counter = int(bigCocksInDave[0][1])
+    while counter-counter2 >= 0:
+        cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(counter-counter2))
+        conn.commit()
+        counter2 += 1
+        print(counter2,'\n\n',counter-counter2)
+
 
 srcList = []
 results = []
