@@ -113,19 +113,21 @@ for item in bigCocksInDave:
   try:  
     #print(item[0], item[1])
     cursor.execute('UPDATE jsonStorage SET links = "{}" WHERE id = "{}"'.format(str(item[0]), str(item[1])))
+    #print(item)
     conn.commit()
     counter += 1
+    #print(counter)
 
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
 
-counter = counter + int(bigCocksInDave[0][1])-1
+counter = bigCocksInDave[len(bigCocksInDave)-1][1]
+print (counter)
 while counter >= len(bigCocksInDave) and counter <= 12:
+    counter += 1
     cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(counter))
     conn.commit()
-    counter += 1
-    print (counter)
-
+    
 counter = 1
 counter2 = 1
 if int(bigCocksInDave[0][1]) > 1:
@@ -134,7 +136,22 @@ if int(bigCocksInDave[0][1]) > 1:
         cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(counter-counter2))
         conn.commit()
         counter2 += 1
-        print(counter2,'\n\n',counter-counter2)
+
+
+try:
+    if int(bigCocksInDave[1][1])-int(bigCocksInDave[0][1]) > 1 and int(bigCocksInDave[0][1]) == 1:
+        while counter < int(bigCocksInDave[1][1]):
+            counter = (int(bigCocksInDave[1][1])-int(bigCocksInDave[0][1]))-1
+            try:
+                cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(counter))
+                conn.commit()
+            except mariadb.Error as e:
+                print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
+            if counter < int(bigCocksInDave[1][1]):
+                counter += 1
+except:
+    print('list index out of range but nobody cares')
+
 
 
 srcList = []
