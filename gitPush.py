@@ -6,7 +6,7 @@ messageCommit = 'Update News'
 def git_push():
     try:
         repo = Repo(repoPath)
-        repo.git.add(update=True)
+        repo.git.add(update=True)   
         repo.index.commit(messageCommit)
         origin = repo.remote(name='origin')
         origin.push()

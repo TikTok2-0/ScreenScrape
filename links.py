@@ -106,7 +106,9 @@ for i in range (len(bigCocksInDave)-2):
     if bigCocksInDave[i][1] == bigCocksInDave[i+1][1]:
         bigCocksInDave[i][0] = bigCocksInDave[i][0], bigCocksInDave[i+1][0]
         bigCocksInDave.pop(i+1)
-        print(bigCocksInDave[i][0])
+        #print(bigCocksInDave[i][0])
+
+print (bigCocksInDave)
 
 counter = 1
 for item in bigCocksInDave:
@@ -118,13 +120,13 @@ for item in bigCocksInDave:
 
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
-
+"""
 counter = counter + int(bigCocksInDave[0][1])-1
 while counter >= len(bigCocksInDave) and counter <= 12:
     cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(counter))
     conn.commit()
     counter += 1
-    print (counter)
+    #print (counter)
 
 counter = 1
 counter2 = 1
@@ -134,9 +136,9 @@ if int(bigCocksInDave[0][1]) > 1:
         cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(counter-counter2))
         conn.commit()
         counter2 += 1
-        print(counter2,'\n\n',counter-counter2)
+        #print(counter2,'\n\n',counter-counter2)
 
-
+"""
 srcList = []
 results = []
 textSplit = []
