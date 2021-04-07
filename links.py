@@ -84,7 +84,7 @@ for result in results:
     result = splitRContent[1]
     splitDivEnd = result.split('</div>')
     result = splitDivEnd[0]
-    
+
     splitHref = result.split('href=')
     
     for split in splitHref:
@@ -110,7 +110,7 @@ for i in range (len(bigCocksInDave)-2):
         bigCocksInDave.pop(i+1)
         #print(bigCocksInDave[i][0])
 
-print (bigCocksInDave)
+#print (bigCocksInDave)
 
 counter = 1
 for item in bigCocksInDave:
@@ -122,6 +122,25 @@ for item in bigCocksInDave:
 
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
+
+counter = 1
+checker = []
+for item in bigCocksInDave:
+    checker.append(str(item[1]))
+
+while counter <= 12:
+    if str(counter) not in checker:
+        print('Haha', counter)
+        try:  
+            #print(item[0], item[1])
+            cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(str(counter)))
+            conn.commit()
+            
+
+        except mariadb.Error as e:
+            print(Fore.RED + f"There was an error during X DRAWING: {e}")
+    counter += 1
+
 """
 counter = counter + int(bigCocksInDave[0][1])-1
 while counter >= len(bigCocksInDave) and counter <= 12:
