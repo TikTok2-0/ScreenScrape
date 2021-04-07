@@ -82,9 +82,11 @@ for result in results:
     #bigCocksInDave.clear()
     splitRContent = str(result).split('<div class="r-content">',1)
     result = splitRContent[1]
-    splitDivEnd = result.split('</div>', 1)
+    splitDivEnd = result.split('</div>')
     result = splitDivEnd[0]
+    
     splitHref = result.split('href=')
+    
     for split in splitHref:
         if split != splitHref[0] and 'thumbnail' not in split and '@' not in split:
             bigGay.append(split)
