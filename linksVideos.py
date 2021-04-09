@@ -157,7 +157,7 @@ for item in results:
 
 for item in videos:
   try:  
-    cursor.execute('UPDATE jsonStorage SET links = "{}" WHERE id = "{}"'.format(str(item[0]), str(item[1])))
+    cursor.execute('UPDATE jsonStorage SET videos = "{}" WHERE id = "{}"'.format(str(item[0]), str(item[1])))
     conn.commit()
 
   except mariadb.Error as e:
@@ -167,13 +167,24 @@ counter = 1
 checker = []
 for item in linksListFinal:
     checker.append(str(item[1]))
-for item in videos:
-    checker.append(str(item[1]))
-
 while counter <= 12:
     if str(counter) not in checker:
         try:  
             cursor.execute('UPDATE jsonStorage SET links = "x" WHERE id = "{}"'.format(str(counter)))
+            conn.commit()
+
+        except mariadb.Error as e:
+            print(Fore.RED + f"There was an error during X DRAWING: {e}")
+    counter += 1
+
+counter = 1
+checker = []
+for item in videos:
+    checker.append(str(item[1]))
+while counter <= 12:
+    if str(counter) not in checker:
+        try:  
+            cursor.execute('UPDATE jsonStorage SET videos = "x" WHERE id = "{}"'.format(str(counter)))
             conn.commit()
 
         except mariadb.Error as e:
