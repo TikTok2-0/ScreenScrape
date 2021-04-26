@@ -47,6 +47,9 @@ def createColumn(nameTable, nameColumn):
 connectToDB()
 
 
+### LINKS HLG ###
+
+
 URL_Src = 'https://www.hlg-hamburg.de'
 pageSrc = requests.get(URL_Src)
 soupSrc = BeautifulSoup(pageSrc.content, 'html5lib')
@@ -115,6 +118,10 @@ for item in linksListFinal:
 
   except mariadb.Error as e:
     print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")
+
+
+### VIDEOS KAIFU ###
+
 
 srcList = []
 results = []
@@ -190,3 +197,54 @@ while counter <= 12:
         except mariadb.Error as e:
             print(Fore.RED + f"There was an error during X DRAWING: {e}")
     counter += 1
+
+
+### LINKS KAIFU ###
+
+
+srcList = []
+results = []
+
+URL2 = 'https://www.kaifu-gymnasium.de'
+pageKFU = requests.get(URL2)
+soupKFU = BeautifulSoup(pageKFU.content, 'html5lib')
+resultsKFU = soupKFU('a')
+
+for result in resultsKFU:
+    convText = str(result)
+    if convText[3] == 'h':
+        splitListFirst = convText.split('href="')
+        linkContainer = splitListFirst[1]
+        if linkContainer[12] == 'k' and linkContainer[13]=='a' and 'author' not in linkContainer and 'rel="' not in linkContainer and 'target="' not in linkContainer and 'src="' not in linkContainer and 'Impressum' not in linkContainer:
+            linkContainer = linkContainer.split('">')
+            linkContainer = linkContainer[0]
+            srcList.append(linkContainer)
+
+for URL in srcList:
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html5lib')
+    midResults = soup('article') 
+    results.append(midResults)
+    
+finalLinksKaifu = []
+    
+for item in results:
+    splitDivEnd = str(item).split('</div>', 1)
+    splitHref = splitDivEnd[0].split('href')
+    for split in splitHref:
+        if '<a' not in split:
+            splitRel = split.split('rel')[0]
+    if '2021/01/14' not in splitRel:
+        splitRel = splitRel[+2:]
+        splitRel = splitRel[:-2]
+        finalLinksKaifu.append(splitRel)
+            
+counter = 1
+for item in finalLinksKaifu:
+  try:  
+    cursor.execute('UPDATE jsonStorage SET links = "{}" WHERE id = "{}"'.format(str(item[0]), str(item[1])))
+    conn.commit()
+    counter += 1
+
+  except mariadb.Error as e:
+    print(Fore.RED + f"There was an error during DATA TRANSMISSION: {e}")

@@ -45,6 +45,10 @@ def createColumn(nameTable, nameColumn):
 
 connectToDB()
 
+
+### HLG ###
+
+
 URL_Src = 'https://www.hlg-hamburg.de'
 pageSrc = requests.get(URL_Src)
 soupSrc = BeautifulSoup(pageSrc.content, 'html5lib')
@@ -81,19 +85,25 @@ for result in results:
     textSplit = textConv.split('Kategorie', 6)
     x += 1
     cleanTextSplit = ''
-    counter = 0
+    if 'Schulgeschichte' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('Schulgeschichte', 1)[1]
+    if 'Allgemein' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('Allgemein', 1)[1]
+    if 'Aktivitäten' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('Aktivitäten', 1)[1]
+    if 'England' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('England', 1)[1]
+    #wenn neue Kategorien hinzukommen hier hinzufügen
     cleanTextSplit = textSplit[1]
-    cleanTextSplit = cleanTextSplit[58:-133]
-    if cleanTextSplit[0].isupper() == False:
-        cleanTextSplit = textSplit[1]
-        cleanTextSplit = cleanTextSplit[57:-133]
+    counter = 0
     while cleanTextSplit[0] == ' ':
         cleanTextSplit = textSplit[1]
-        cleanTextSplit = cleanTextSplit[58+counter:-133]
+        cleanTextSplit = cleanTextSplit[counter:-133]
         counter += 1
-    if cleanTextSplit[0] == '\n':
+    while cleanTextSplit[0] == '\n':
         cleanTextSplit = textSplit[1]
-        cleanTextSplit = cleanTextSplit[60:-133]
+        cleanTextSplit = cleanTextSplit[counter:-133]
+        counter += 1
     counter = 0
     cleanTextList.clear()
     cleanTextList.append(cleanTextSplit)
@@ -110,6 +120,10 @@ for result in results:
             #print('SATZ', satz)
             cleanTextList2.append(satz)
 cleanTextList = cleanTextList2
+
+
+### KFU ###
+
 
 srcList = []
 results = []
@@ -149,6 +163,8 @@ for result in results:
         textConv = str(textConv)[1:]
     cleanText = str(textConv)
     cleanText = cleanText[:-57]
+    if "Sorry, your browser doesn't support embedded videos." in cleanText:
+        cleanText.replace("Sorry, your browser doesn't support embedded videos.", '')
     cleanTextList.append(cleanText)
 
 for item in cleanTextList:
