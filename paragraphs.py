@@ -93,6 +93,12 @@ for result in results:
         textSplit[1] = textSplit[1].split('Aktivitäten', 1)[1]
     if 'England' in textSplit[1]:
         textSplit[1] = textSplit[1].split('England', 1)[1]
+    if 'Deutsch' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('Deutsch', 1)[1]
+    if 'Beobachtungsstufe' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('Beobachtungsstufe', 1)[1]
+    if 'Musik' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('Musik', 1)[1]
     #wenn neue Kategorien hinzukommen hier hinzufügen
     cleanTextSplit = textSplit[1]
     counter = 0
@@ -100,7 +106,7 @@ for result in results:
         cleanTextSplit = textSplit[1]
         cleanTextSplit = cleanTextSplit[counter:-133]
         counter += 1
-    while cleanTextSplit[0] == '\n':
+    while cleanTextSplit[0] == '\n' or cleanTextSplit[1] == '\n':
         cleanTextSplit = textSplit[1]
         cleanTextSplit = cleanTextSplit[counter:-133]
         counter += 1
