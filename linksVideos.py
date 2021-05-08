@@ -234,10 +234,13 @@ for item in results:
     for split in splitHref:
         if '<a' not in split:
             splitRel = split.split('rel')[0]
-    if '2021/01/14' not in splitRel:
-        splitRel = splitRel[+2:]
-        splitRel = splitRel[:-2]
-        finalLinksKaifu.append(splitRel)
+    try:
+        if '2021/01/14' not in splitRel:
+            splitRel = splitRel[+2:]
+            splitRel = splitRel[:-2]
+            finalLinksKaifu.append(splitRel)
+    except:
+        print('no links on kaifu site')
             
 counter = 1
 for item in finalLinksKaifu:
