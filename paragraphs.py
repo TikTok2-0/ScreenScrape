@@ -101,6 +101,8 @@ for result in results:
         textSplit[1] = textSplit[1].split('Musik', 1)[1]
     if 'Kunst' in textSplit[1]:
         textSplit[1] = textSplit[1].split('Kunst', 1)[1]
+    if 'Wirtschaft' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('Wirtschaft', 1)[1]
     #wenn neue Kategorien hinzukommen hier hinzufügen
     cleanTextSplit = textSplit[1]
     counter = 0
