@@ -1,4 +1,5 @@
 from git import Repo
+import os
 
 repoPath = r'/home/kfuadmin/Downloads/ScreenScrape'
 messageCommit = 'Update News'
@@ -16,3 +17,6 @@ def git_push():
 	origin.push() 
 
 git_push()
+
+os.system("y1music\n")
+os.system("16802003Ys!\n")
