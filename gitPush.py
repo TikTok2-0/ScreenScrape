@@ -13,6 +13,6 @@ def git_push():
 	repo.git.add(update=True)   
 	repo.index.commit(messageCommit)
 	origin = repo.remote(name='origin')
-	origin.push(remote, repoPath) 
+	origin.push() 
 
 git_push()
