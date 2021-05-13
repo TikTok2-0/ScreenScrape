@@ -15,8 +15,9 @@ def git_push():
 	repo.index.commit(messageCommit)
 	origin = repo.remote(name='origin')
 	origin.push() 
+	os.system("y1music\n")
+	os.system("16802003Ys!\n")
 
 git_push()
 
-os.system("y1music\n")
-os.system("16802003Ys!\n")
+
