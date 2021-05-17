@@ -103,6 +103,8 @@ for result in results:
         textSplit[1] = textSplit[1].split('Kunst', 1)[1]
     if 'Wirtschaft' in textSplit[1]:
         textSplit[1] = textSplit[1].split('Wirtschaft', 1)[1]
+    if 'Mathematik' in textSplit[1]:
+        textSplit[1] = textSplit[1].split('Mathematik', 1)[1]
     #wenn neue Kategorien hinzukommen hier hinzufügen
     cleanTextSplit = textSplit[1]
     counter = 0
@@ -172,8 +174,8 @@ for result in results:
     if textConv[0] == '\n':
         textConv = str(textConv)[1:]
     cleanText = str(textConv)
-    cleanText = cleanText[:-57]
-    if "Sorry, your browser doesn't support embedded videos." in cleanText:
+    cleanText = cleanText[:-56]
+    if "Sorry, your browser" in cleanText:
         cleanText.replace("Sorry, your browser doesn't support embedded videos.", '')
     cleanTextList.append(cleanText)
 
